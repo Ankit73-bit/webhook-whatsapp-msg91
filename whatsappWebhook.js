@@ -7,12 +7,17 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
 app.post("/webhook/whatsapp", (req, res) => {
-  const messageData = req.body;
+  const payload = req.body;
 
-  console.log("📩 Incoming WhatsApp Message:");
-  console.log(JSON.stringify(messageData, null, 2));
+  const senderName =
+    payload.customer_name || payload.contacts?.[0]?.profile?.name;
+  const senderNumber = payload.contacts?.[0]?.wa_id;
+  const messageText = payload.messages?.[0]?.text?.body;
+  const timestamp = payload.received_at;
 
-  // TODO: Add processing logic here
+  console.log(
+    `📨 ${senderName} (${senderNumber}) said: "${messageText}" at ${timestamp}`
+  );
 
   res.status(200).json({ response: "success" });
 });
