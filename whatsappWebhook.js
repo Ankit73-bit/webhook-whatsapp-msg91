@@ -1,11 +1,9 @@
-// whatsapp-webhook.js
 const express = require("express");
 const bodyParser = require("body-parser");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(bodyParser.json());
 
 app.post("/webhook/whatsapp", (req, res) => {
@@ -14,18 +12,11 @@ app.post("/webhook/whatsapp", (req, res) => {
   console.log("📩 Incoming WhatsApp Message:");
   console.log(JSON.stringify(messageData, null, 2));
 
-  // Example: Extract message details
-  const from = messageData.mobile;
-  const message = messageData.message;
+  // TODO: Add processing logic here
 
-  // Log or process it as needed
-  // e.g., save to DB, trigger bot, auto-reply, etc.
-
-  res.status(200).send("Received");
+  res.status(200).json({ response: "success" });
 });
 
 app.listen(PORT, () => {
-  console.log(
-    `🚀 WhatsApp Webhook listening on http://localhost:${PORT}/webhook/whatsapp`
-  );
+  console.log(`🚀 Webhook server listening on port ${PORT}`);
 });
