@@ -7,4 +7,6 @@ const messageSchema = new mongoose.Schema({
   timestamp: String,
 });
 
-export default mongoose.model("Message", messageSchema);
+const Message = mongoose.model("Message", messageSchema);
+
+export default Message;

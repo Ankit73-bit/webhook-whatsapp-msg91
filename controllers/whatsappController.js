@@ -1,4 +1,4 @@
-import messageModel from "../models/messageModel.js";
+import Message from "../models/messageModel.js";
 
 export const receiveMessage = async (req, res) => {
   const payload = req.body;
@@ -14,7 +14,12 @@ export const receiveMessage = async (req, res) => {
   );
 
   try {
-    await Message.create({ senderName, senderNumber, messageText, timestamp });
+    await Message.create({
+      senderName,
+      senderNumber,
+      messageText,
+      timestamp,
+    });
     res.status(200).json({ response: "success" });
   } catch (err) {
     console.error("❌ Error saving message:", err);
@@ -24,7 +29,7 @@ export const receiveMessage = async (req, res) => {
 
 export const getAllMessages = async (req, res) => {
   try {
-    const messages = await messageModel.find().sort({ timestamp: -1 });
+    const messages = await Message.find().sort({ timestamp: -1 });
     res.json(messages);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch messages" });
